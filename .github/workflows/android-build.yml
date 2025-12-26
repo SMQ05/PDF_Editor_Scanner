@@ -60,7 +60,7 @@ jobs:
     
     - name: Set Gradle memory options
       run: |
-        echo "org.gradle.jvmargs=-Xmx3g -XX:MaxPermSize=1024m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8" >> gradle.properties
+        echo "org.gradle.jvmargs=-Xmx4g -XX:MaxPermSize=1024m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8" >> gradle.properties
 
     - name: Build APK with buildozer
       run: |
