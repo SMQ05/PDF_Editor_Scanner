@@ -98,6 +98,7 @@ android.logcat_filters = *:S python:D
 # (list) Gradle dependencies
 # NOTE: PDFBox uses com.tom-roush (hyphen), not com.tom_roush (underscore)
 android.gradle_dependencies = com.tom-roush:pdfbox-android:2.0.27.0,com.android.billingclient:billing:6.1.0,com.google.android.gms:play-services-ads:23.0.0
+android.gradle_options = -Xmx3g
 
 # (list) Java jars to include
 #android.add_jars = android/libs/pdfbox-android.aar
