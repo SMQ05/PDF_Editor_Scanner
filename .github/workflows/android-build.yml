@@ -60,7 +60,6 @@ jobs:
     
     - name: Build APK with buildozer
       run: |
-        buildozer android clean
         buildozer -v android debug
       env:
         ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
