@@ -1,0 +1,79 @@
+name: Android Build
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
+    - name: Install system dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y \
+          openjdk-17-jdk \
+          autoconf \
+          automake \
+          build-essential \
+          ccache \
+          cmake \
+          gettext \
+          git \
+          libffi-dev \
+          libltdl-dev \
+          libssl-dev \
+          libtool \
+          pkg-config \
+          python3-pip \
+          unzip \
+          zip \
+          zlib1g-dev
+    
+    - name: Install buildozer and dependencies
+      run: |
+        pip install --upgrade pip
+        pip install buildozer==1.5.0 cython==0.29.36
+    
+    - name: Cache buildozer directories
+      uses: actions/cache@v4
+      with:
+        path: |
+          .buildozer
+          ~/.buildozer
+        key: ${{ runner.os }}-buildozer-${{ hashFiles('buildozer.spec') }}
+        restore-keys: |
+          ${{ runner.os }}-buildozer-
+    
+    - name: Build APK with buildozer
+      run: |
+        buildozer android debug
+      env:
+        ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+    
+    - name: Upload APK artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: pdf-scanner-debug-apk
+        path: bin/*.apk
+        retention-days: 30
+    
+    - name: Create release (on tag)
+      if: startsWith(github.ref, 'refs/tags/v')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: bin/*.apk
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

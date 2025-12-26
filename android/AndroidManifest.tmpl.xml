@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Custom AndroidManifest.xml template for PDF Scanner app.
+    
+    NOTE: Package name and version info are managed by Buildozer.
+    This template is copied into place by hook.py before build.
+    
+    Required components:
+    - PythonActivity as launcher (Kivy)
+    - PdfOpenActivity for "Open with..." PDF handling
+    - PdfViewerActivity for PDF viewing/editing
+    - FileProvider for secure file sharing
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Permissions -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <uses-permission android:name="com.android.vending.BILLING" />
+    
+    <!-- Camera feature: optional to allow install on tablets without camera -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+
+    <application
+        android:label="@string/app_name"
+        android:icon="@drawable/icon"
+        android:allowBackup="true"
+        android:theme="@android:style/Theme.NoTitleBar"
+        android:hardwareAccelerated="true">
+        
+        <!-- Main Activity (Kivy) - LAUNCHER -->
+        <activity
+            android:name="org.kivy.android.PythonActivity"
+            android:launchMode="singleTask"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|fontScale|uiMode|layoutDirection|screenSize|smallestScreenSize|density"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <!-- PDF Open Activity - handles "Open with..." for PDFs -->
+        <!-- Single intent-filter for application/pdf only -->
+        <activity
+            android:name="com.pdfscanner.docscanner.PdfOpenActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.OPENABLE" />
+                <data android:mimeType="application/pdf" />
+            </intent-filter>
+        </activity>
+        
+        <!-- PDF Viewer Activity - full viewer with annotations -->
+        <activity
+            android:name="com.pdfscanner.docscanner.PdfViewerActivity"
+            android:exported="false"
+            android:configChanges="orientation|screenSize"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        
+        <!-- Python Service -->
+        <service
+            android:name="org.kivy.android.PythonService"
+            android:exported="false" />
+
+        <!-- AdMob Application ID -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-XXXXXXXXXXXXXXXX~YYYYYYYYYY" />
+
+        <!-- FileProvider for secure file sharing -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+    </application>
+
+</manifest>
