@@ -96,11 +96,11 @@ android.meta_data = com.google.android.gms.ads.APPLICATION_ID=ca-app-pub-XXXXXXX
 android.logcat_filters = *:S python:D
 
 # (list) Gradle dependencies
-# NOTE: Removed explicit androidx.core - brought in by other deps
-android.gradle_dependencies = com.android.billingclient:billing:6.1.0,com.google.android.gms:play-services-ads:23.0.0
+# NOTE: PDFBox uses com.tom-roush (hyphen), not com.tom_roush (underscore)
+android.gradle_dependencies = com.tom-roush:pdfbox-android:2.0.27.0,com.android.billingclient:billing:6.1.0,com.google.android.gms:play-services-ads:23.0.0
 
 # (list) Java jars to include
-android.add_jars = android/libs/pdfbox-android.aar
+#android.add_jars = android/libs/pdfbox-android.aar
 
 # (bool) Enable AndroidX support
 android.enable_androidx = True
@@ -126,7 +126,7 @@ android.manifest = android/AndroidManifest.tmpl.xml
 p4a.hook = hook.py
 
 # (str) Extra arguments to pass to p4a
-p4a.extra_args = --clean-build
+#p4a.extra_args =
 
 #
 # BUILD SYSTEM NOTES:
