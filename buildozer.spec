@@ -25,7 +25,7 @@ source.exclude_exts = spec
 source.exclude_dirs = tests, bin, .git, __pycache__, docs
 
 # (str) Application versioning
-version = 1.0.0
+version = 1.0.1
 
 # (list) Application requirements
 # NOTE: Removed 'android' - it's auto-provided by python-for-android
@@ -97,7 +97,7 @@ android.logcat_filters = *:S python:D
 
 # (list) Gradle dependencies
 # NOTE: Removed explicit androidx.core - brought in by other deps
-android.gradle_dependencies = com.google.android.gms:play-services-ads:23.0.0,com.android.billingclient:billing:6.1.0,com.tom_roush:pdfbox-android:2.0.27.0
+android.gradle_dependencies = com.tom_roush:pdfbox-android:2.0.27.1,com.android.billingclient:billing:6.1.0,com.google.android.gms:play-services-ads:23.0.0
 
 # (bool) Enable AndroidX support
 android.enable_androidx = True
@@ -123,7 +123,7 @@ android.manifest = android/AndroidManifest.tmpl.xml
 p4a.hook = hook.py
 
 # (str) Extra arguments to pass to p4a
-#p4a.extra_args =
+p4a.extra_args = --clean-build
 
 #
 # BUILD SYSTEM NOTES:
