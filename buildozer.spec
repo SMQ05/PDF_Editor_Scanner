@@ -97,7 +97,10 @@ android.logcat_filters = *:S python:D
 
 # (list) Gradle dependencies
 # NOTE: Removed explicit androidx.core - brought in by other deps
-android.gradle_dependencies = com.tom_roush:pdfbox-android:2.0.27.1,com.android.billingclient:billing:6.1.0,com.google.android.gms:play-services-ads:23.0.0
+android.gradle_dependencies = com.android.billingclient:billing:6.1.0,com.google.android.gms:play-services-ads:23.0.0
+
+# (list) Java jars to include
+android.add_jars = android/libs/pdfbox-android.aar
 
 # (bool) Enable AndroidX support
 android.enable_androidx = True
