@@ -166,7 +166,45 @@ class PDFScannerApp(App):
 
 def main():
     """Main entry point."""
-    PDFScannerApp().run()
+    try:
+        PDFScannerApp().run()
+    except Exception as e:
+        Logger.error(f"App: Crashed: {e}")
+        import traceback
+        import time
+        
+        crash_msg = traceback.format_exc()
+        
+        # Try to write to multiple locations to ensure user can find it
+        try:
+            timestamp = int(time.time())
+            
+            # 1. App storage (always writable)
+            if platform == 'android':
+                from android.storage import app_storage_path
+                log_dir = app_storage_path()
+            else:
+                log_dir = os.path.dirname(os.path.abspath(__file__))
+            
+            with open(os.path.join(log_dir,  f"crash_log_{timestamp}.txt"), "w") as f:
+                f.write(crash_msg)
+                
+            # 2. Try Public storage (documents) - might fail due to permission, but worth a shot
+            try:
+                if platform == 'android':
+                    from android.storage import primary_external_storage_path
+                    public_dir = os.path.join(primary_external_storage_path(), 'Documents')
+                    if os.path.exists(public_dir):
+                        with open(os.path.join(public_dir, f"pdf_scanner_crash_{timestamp}.txt"), "w") as f:
+                            f.write(crash_msg)
+            except:
+                pass
+                
+        except:
+            pass
+            
+        # Re-raise to ensure system crash handler also sees it
+        raise e
 
 
 if __name__ == '__main__':
